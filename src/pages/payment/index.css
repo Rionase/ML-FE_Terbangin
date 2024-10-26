@@ -1,0 +1,31 @@
+#showPaymentBtn {
+  background-color: #8a2be2;
+  outline: none;
+  border: none;
+  border-radius: 11px;
+}
+
+#showPaymentBtn:hover {
+  background-color: #6918b4;
+}
+
+#snapContainer {
+  width: 100%;
+  box-shadow: 1px 0 5px 2px rgba(0, 0, 0, 0.1);
+  border-radius: 0.50rem;
+}
+
+/* (Chrome, Safari) */
+.scroll-container::-webkit-scrollbar {
+  display: none;
+}
+
+/* Untuk Firefox */
+.scroll-container {
+  scrollbar-width: none;
+}
+
+/* Untuk Internet Explorer 10+ */
+.scroll-container {
+  -ms-overflow-style: none;
+}

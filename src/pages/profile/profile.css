@@ -1,0 +1,61 @@
+.menu-profile {
+    color: black;
+    border-radius: 8px;
+}
+
+.menu-profile:hover {
+    background-color: #f1f1f1;
+    border-radius: 8px;
+    color: black;
+}
+
+.menu-profile:focus {
+    background-color: #7126b5;
+    border-radius: 8px;
+    color: white;
+    .FaUserEdit {
+        color: white;
+    }
+    .FaCog {
+        color: white;
+    }
+}
+
+.FaUserEdit {
+    color: #7126b5;
+}
+
+.FaCog {
+    color: #7126b5;
+}
+
+.menu-profile-logout {
+    color: black;
+    border-radius: 8px;
+}
+
+.menu-profile-logout:hover {
+    background-color: #d32424;
+    border-radius: 8px;
+    color: white;
+    .menu-profile-logout-icon {
+        color: white;
+    }
+}
+.menu-profile-logout:focus {
+    background-color: #d32424;
+    border-radius: 8px;
+    color: white;
+    .menu-profile-logout-icon {
+        color: white;
+    }
+}
+
+.menu-profile-logout-icon {
+    color: #7126b5;
+}
+
+.form-control:focus {
+ 
+    box-shadow: 0 0 0 0.2rem rgba(113, 38, 181, 0.25);
+}

@@ -1,0 +1,14 @@
+/* (Chrome, Safari) */
+.scroll-container::-webkit-scrollbar {
+    display: none;
+}
+
+/* Untuk Firefox */
+.scroll-container {
+    scrollbar-width: none;
+}
+
+/* Untuk Internet Explorer 10+ */
+.scroll-container {
+    -ms-overflow-style: none;
+}

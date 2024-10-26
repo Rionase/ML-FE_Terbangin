@@ -1,0 +1,22 @@
+#content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.paymentSuccessBtn {
+  background-color: #934baa;
+  height: 48px;
+  width: 400px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.paymentSuccessBtn:hover {
+  background-color: #7a3e8e;
+}
+
+#selamat {
+  color: #7126b5;
+}

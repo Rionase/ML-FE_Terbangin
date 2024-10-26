@@ -1,0 +1,15 @@
+.hitEndAirport {
+    padding: 10px;
+    border-bottom: 1px solid #a51acf;
+    cursor: pointer;
+}
+mark {
+    padding: 0;
+    background-color: transparent;
+    color: purple;
+    font-weight: bold;
+}
+
+.hitEndAirport.selected {
+    background-color: #ddd;
+}
