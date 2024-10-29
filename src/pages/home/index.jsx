@@ -7,7 +7,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import initialSearchImage from "../../assets/Cards/b_search.png";
 import clickedSearchImage from "../../assets/Cards/w_search.png";
 import PropTypes from "prop-types";
-import { getFlightByContinent } from "../../redux/actions/flight";
+import { getFlightByContinent, getFlightRecomendation } from "../../redux/actions/flight";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment-timezone";
 import Tippy from "@tippyjs/react";
@@ -70,6 +70,7 @@ const DestinationFavorit = ({ isFullScreen }) => {
     const { flights } = useSelector((state) => state.flight);
     const navigate = useNavigate();
     const [loadingImages, setLoadingImages] = useState({});
+    const [page, setPage] = useState(0)
 
     const getButtonStyle = (buttonId) => {
         return {
@@ -132,22 +133,42 @@ const DestinationFavorit = ({ isFullScreen }) => {
         setLoadingImages((prevState) => ({ ...prevState, [id]: true }));
     };
 
-    useEffect(() => {
-        if (sortContinent !== null) {
-            const datePlus30Days = getDatePlus30Days();
-            // console.log(
-            //     "Dispatching getFlightByContinent with date:",
-            //     datePlus30Days,
-            //     "and continent:",
-            //     sortContinent
-            // );
-            dispatch(getFlightByContinent(datePlus30Days, sortContinent)).catch(
-                (error) => {
-                    console.error("Error fetching flights:", error);
-                }
-            );
+    const handlePreviousClick = () => {
+        if ( page > 0 ) {
+            setPage(page - 1)
         }
-    }, [dispatch, sortContinent]);
+    }
+
+    const handleNextClick = () => {
+        if ( flights.length == 8 ) {
+            setPage(page + 1)
+        }
+    }
+
+    // useEffect(() => {
+    //     if (sortContinent !== null) {
+    //         const datePlus30Days = getDatePlus30Days();
+    //         // console.log(
+    //         //     "Dispatching getFlightByContinent with date:",
+    //         //     datePlus30Days,
+    //         //     "and continent:",
+    //         //     sortContinent
+    //         // );
+    //         dispatch(getFlightByContinent(datePlus30Days, sortContinent)).catch(
+    //             (error) => {
+    //                 console.error("Error fetching flights:", error);
+    //             }
+    //         );
+    //     }
+    // }, [dispatch, sortContinent]);
+
+    useEffect(() => {
+        dispatch(getFlightRecomendation(page)).catch(
+            (error) => {
+                console.error("Error fetching flights:", error);
+            }
+        );
+    }, [page])
 
     return (
         <Container>
@@ -156,29 +177,6 @@ const DestinationFavorit = ({ isFullScreen }) => {
                 style={{ margin: isFullScreen ? "0px 120px" : "0px 0px" }}
             >
                 <h4> Rekomendasi Penerbangan</h4>
-                <Col md={12}>
-                    {[
-                        { id: 1, label: "Asia", value: "Asia" },
-                        { id: 2, label: "Amerika", value: "America" },
-                        { id: 3, label: "Australia", value: "Australia" },
-                        { id: 4, label: "Eropa", value: "Europe" },
-                        { id: 5, label: "Afrika", value: "Africa" },
-                    ].map((button) => (
-                        <Button
-                            key={button.id}
-                            style={getButtonStyle(button.id)}
-                            onClick={() => handleClick(button.id, button.value)}
-                            variant="secondary"
-                            className="me-2 mt-2"
-                        >
-                            {/* <img
-                                src={getSourceImages(button.id)}
-                                alt={`Tombol ${button.id}`}
-                            /> */}
-                            &nbsp;{button.label}
-                        </Button>
-                    ))}
-                </Col>
             </Row>
             <Row style={{ margin: isFullScreen ? "0px 120px" : "0px 0px" }}>
                 {flights.map((flight) => (
@@ -250,6 +248,53 @@ const DestinationFavorit = ({ isFullScreen }) => {
                         </Card>
                     </Col>
                 ))}
+                <div
+                    style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        gap: '10px',
+                        marginTop: '20px',
+                        marginBottom: '50px'
+                    }}
+                >
+                    <button
+                        disabled={page === 0}
+                        onClick={handlePreviousClick}
+                        style={{
+                            backgroundColor: page === 0 ? '#D3D3D3' : '#6A0DAD',
+                            color: page === 0 ? '#A9A9A9' : '#FFF',
+                            padding: '10px 20px',
+                            border: 'none',
+                            borderRadius: '5px',
+                            cursor: page === 0 ? 'not-allowed' : 'pointer',
+                            transition: 'background-color 0.3s',
+                            fontSize: '16px',
+                            fontWeight: 'bold',
+                        }}
+                    >
+                        Previous
+                    </button>
+                    <button
+                        disabled={flights.length < 8}
+                        onClick={handleNextClick}
+                        style={{
+                            backgroundColor: flights.length < 8 ? '#D3D3D3' : '#6A0DAD',
+                            color: flights.length < 8 ? '#A9A9A9' : '#FFF',
+                            padding: '10px 20px',
+                            border: 'none',
+                            borderRadius: '5px',
+                            cursor: flights.length < 8 ? 'not-allowed' : 'pointer',
+                            transition: 'background-color 0.3s',
+                            fontSize: '16px',
+                            fontWeight: 'bold',
+                        }}
+                    >
+                        Next
+                    </button>
+                </div>
+
+    
             </Row>
         </Container>
     );

@@ -60,7 +60,7 @@ export const getFlightById = (id) => async () => {
     }
 };
 
-export const getFlightByContinent = (value, continent) => async (dispatch) => {
+export const getFlightByContinent = (value, continent) => async (dispatch, getState) => {
     value = value ?? "";
     continent = continent ?? "";
 
@@ -71,11 +71,14 @@ export const getFlightByContinent = (value, continent) => async (dispatch) => {
         url.searchParams.append("value", value);
         url.searchParams.append("continent", continent);
 
+        const { token } = getState().auth;
+        const headers = token ? { Authorization: `Bearer ${token}` } : {};
+
         const config = {
             method: "get",
             maxBodyLength: Infinity,
             url: url.toString(),
-            headers: {},
+            headers: headers,
         };
 
         const response = await axios.request(config);
@@ -87,3 +90,30 @@ export const getFlightByContinent = (value, continent) => async (dispatch) => {
         console.error("Error fetching flights:", error);
     }
 };
+
+export const getFlightRecomendation = (page) => async (dispatch, getState) => {
+    try {
+        const url = new URL(
+            `${import.meta.env.VITE_BACKEND_API}/api/v1/testing/recomendation`
+        );
+        url.searchParams.append("page", page);
+
+        const { token } = getState().auth;
+        const headers = token ? { Authorization: `Bearer ${token}` } : {};
+
+        const config = {
+            method: "get",
+            maxBodyLength: Infinity,
+            url: url.toString(),
+            headers: headers,
+        };
+
+        const response = await axios.request(config);
+        const { data } = response.data;
+
+        dispatch(setFlights(data));
+    } catch (error) {
+        dispatch(setFlights([]));
+        console.error("Error fetching flights:", error);
+    }
+}
